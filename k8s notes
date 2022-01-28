@@ -1,0 +1,54 @@
+servies are of 4 types 
+a) nodeport
+b) clusterIP
+c) loadbalancer
+d) External Name
+
+kubectl run dheeraj1 --image=nginx --port=80 --restart=Never -o yaml --- command to create pod and showing the out over the screen in yml format 
+
+Services --- service ip is not reachable form outside 
+every master nad slave is having ip address but a user can access only either master ip or worker ip 
+master ip should be hidden to outside 
+here comes Nodeport and Loadbalancer 
+bcs every container is working on diffenret port so we can access via port forwarding in docker 
+
+file to create pod with labels
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    x: hello
+  name: dheeraj12
+spec:
+  containers:
+  - image: nginx
+    name: dheeraj12
+    ports:
+    - containerPort: 80
+    
+file to create service of nodeport type 
+apiVersion: v1
+kind: Service
+metadata:
+  name: myservice
+
+spec: 
+ ports:
+ - name: myserport
+   port: 11222
+   targetPort: 80
+ selector:
+   x: hello
+ type: NodePort
+
+
+a) create a pod with lables and create service of nodeport type and it will generate genrate port and we can use this with master or node 
+
+
+command to create service via cmd --- kubectl  create service  nodeport mypod2s1 --tcp 80 --dry-run -o yaml
+   
+
+
+    
+    
