@@ -48,7 +48,17 @@ a) create a pod with lables and create service of nodeport type and it will gene
 
 command to create service via cmd --- kubectl  create service  nodeport mypod2s1 --tcp 80 --dry-run -o yaml
    
+ ******************************************* DAY 5 **********
+ 
+ nodeprt range ---> 30k to 32767
 
+best way to write POD and Service file 
+
+
+ 
+ 
+ 
+ 
 
     
     
