@@ -52,13 +52,54 @@ command to create service via cmd --- kubectl  create service  nodeport mypod2s1
  
  nodeprt range ---> 30k to 32767
 
-best way to write POD and Service file 
+best way to write POD and Service file in a single file  is 
+***
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashupod1
+  name: ashupod1
+spec:
+  containers:
+  - image: nginx
+    name: ashupod1
+    ports:
+    - containerPort: 80
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashubestways1
+  name: ashubestways1
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: ashupod1
+  type: NodePort
+status:
+  loadBalancer: {}
+********
+
+how to assign service to a running pods
+kubectl expose pods ashupod1 --type NodePort --port 80 
 
 
- 
  
  
  
 
     
     
+
