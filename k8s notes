@@ -95,7 +95,13 @@ status:
 how to assign service to a running pods
 kubectl expose pods ashupod1 --type NodePort --port 80 
 
+how to get json or yaml file from a running pods
+kubectl get svc servicename --export -o yaml
 
+how to run command like ping in pod
+command : ["/bin/sh", "-c","ping 8.8.8.8"] 
+
+command can replace entrypoint which is written in Dockerfile 
  
  
  
