@@ -102,6 +102,73 @@ how to run command like ping in pod
 command : ["/bin/sh", "-c","ping 8.8.8.8"] 
 
 command can replace entrypoint which is written in Dockerfile 
+
+*******************
+ Replication Controller--- if pod got down in nod then it will schedule this over other node or in the same node ...
+ its duty to maintain the count of pod 
+ apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: myrcashu1
+  labels:
+    app: web1 #label for rc not for pod
+spec:
+  replicas: 1 #always one pod will be present even in case of current worker node failure
+  template:
+    metadata:
+      name: mypod11 # this will be the podname that will be created by RC
+      labels:
+        x: helloadhoc
+    spec:
+      containers:
+      - name: ashux11
+        image: nginx
+        ports:
+        - containerPort: 80
+kubectl delete all -all ---it will all of the thing we are having at the same time
+
+***************
+VOLUME
+**********
+add extra storage and integrate with pods
+
+catagory of volumes
+a) hostpath --- when u mount a location of pod of worker node to ---doubt little bit 
+b) EmptyDir --- storgae speed is fast but temporary 
+k8s supports cloud storage as well like EBS in azure
+ volume file 
+ 
+ apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashupod1
+    x: hello
+  name: ashupod1
+spec:
+  volumes: #this is for creating volume of any type
+  - name: ashuvol111 # name of volume
+    emptyDir : {} # it will create a temp and random folder in worker node after deleting this it will also get deleted
+  containers:
+  - image: alpine
+    name: ashupod1
+    volumeMounts:
+    - name: ashuvol111
+      mountPath: /mnt/date/ # this folder will get create automatically for mounting purpose
+    ports:
+    - containerPort: 80
+    command: ["/bin/sh","while true ; do date >> /mnt/date/output.txt; sleep 2; done"]
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+
+hostPath volume type
+you can create multiple volumes and mount them in single file 
+
+ 
  
  
  
