@@ -133,11 +133,41 @@ VOLUME
 add extra storage and integrate with pods
 
 catagory of volumes
-a) hostpath --- when u mount a location of pod of worker node to ---doubt little bit 
+a) hostpath --- when u mount a location of pod of worker node to system ---doubt little bit 
+using portainer we can manage all the pod in a node
+first we need to create a volume for that and after expose service for that container
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: myportal1
+  name: myportal1
+spec:
+  volumes:
+  - name: dheerajvol1
+    hostPath:
+      path: /var/run/docker.sock
+      type: Socket
+
+  nodeName: myrcashu2-77zlp
+  containers:
+  - image: portainer/portainer
+    name: myportal1
+    ports:
+    - containerPort: 9000
+    volumeMounts:
+    - name: dheerajvol1
+      mountPath: /var/run/docker.sock
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
 b) EmptyDir --- storgae speed is fast but temporary 
 k8s supports cloud storage as well like EBS in azure
  volume file 
- 
+ #########################
  apiVersion: v1
 kind: Pod
 metadata:
@@ -167,6 +197,56 @@ status: {}
 
 hostPath volume type
 you can create multiple volumes and mount them in single file 
+
+******************
+Q) how to access a pod without creating any services 
+***************************
+what is portainer
+**************
+
+
+we need to download admin.conf file at our server where kubectl is running under config folder 
+
+Namespaces ---> 
+
+if we are using the same admin.conf file for different node then the pods they have deployed can acess and see each others node's pod details in a cluster
+so if we want to hide the data of each node then we can create namespace on top of the cluster .
+by default when kubernetes get installed default namespase is there.
+
+by default there are 4 types of namspases.
+a) default -- > when u r getting connected with the cluster this will come
+b) kube-system -- > any service will be stored in this in the form of pod like etcd
+c) kube-public -- > its like the template
+d) kube-node-lease -- > it is for backup, maintainance...
+
+command to create namespaces --- > kubectl create namespace adhicns1
+
+same pod can be created in different namespaces 
+
+kubectl replace -f /tmp/ns.yml --force -n adhoc ---> command to delete and recreate the pod 
+
+couple of resources which are not boundedd with namespaces ..> like nodes, namespace, 
+to see ---> kubectl api-resources
+
+****************************
+
+difference bw Replication controller and replica set ?
+
+replica set is not being used anymore bcs if you shift to new from old contianer will get delete and this will create downtime which is not suitable.
+
+to do updation we use rolling updation by stop taking new connection for a pod and when serving old collection it will get deleted and will create new one 
+so total count will be same at anytime 
+
+**************
+deployment
+***************
+command to create deployments -- > kubectl create deployments ashudep1 --image=nginx --dry-run -o yaml
+
+
+
+
+
+
 
  
  
