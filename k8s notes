@@ -241,6 +241,28 @@ so total count will be same at anytime
 deployment
 ***************
 command to create deployments -- > kubectl create deployments ashudep1 --image=nginx --dry-run -o yaml
+add service   --- > kubectl expose deployment ashudep1 --type Nodeport --port 80 -n dheerajns1
+
+scale deployment ---> kubectl scale deployment ashudep1 --replicas=3 -n dheerajns
+
+how to update app from v1 to v2 
+deployments maintaine the version by revision number 
+
+method --- > a) edit the file and change the image version of container
+after making changes and apply file changes rolling update will done in the backend 
+
+checking the rollout history ..--> it will show the revision number history 
+
+command---> kubectl rollout history deployment ashudep1 -n dheerajns
+
+command to downgrade the revision ---> kubectl rollout undo deployment ashudep1 -n dheerajns
+
+command to go to specific revision number --> kubectl rollout undo deployment ashudp1 -n dheerajns --to-revision=1 
+
+
+
+
+
 
 
 
